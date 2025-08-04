@@ -7,7 +7,7 @@ import (
 )
 
 func InitConfig(projectName, modulePath string) error {
-	configPath := filepath.Join(projectName, "cmd")
+	configPath := filepath.Join(projectName, "config")
 	err := os.MkdirAll(configPath, os.ModePerm)
 	if err != nil {
 		return err

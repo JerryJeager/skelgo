@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/JerryJeager/skelgo/cmd/config"
+	"github.com/JerryJeager/skelgo/cmd/docs"
 )
 
 func InitProject(projectName, modulePath string) error {
@@ -25,8 +26,13 @@ func InitProject(projectName, modulePath string) error {
 		return err
 	}
 
-	//handle config folder
+	// handle config folder
 	if err := config.InitConfig(projectName, modulePath); err != nil {
+		return err
+	}
+
+	//handle docs folder 
+	if err := docs.InitDocs(projectName, modulePath); err != nil {
 		return err
 	}
 

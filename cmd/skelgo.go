@@ -13,7 +13,7 @@ func Init(projectName, modulePath string) error {
 	s.Start() 
 
 	if err := InitProject(projectName, modulePath); err != nil {
-		return nil
+		return err
 	}
 	time.Sleep(5 * time.Second) 
 
