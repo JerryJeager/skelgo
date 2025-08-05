@@ -91,7 +91,7 @@ func LoadEnv() {
 	}
 
 	for _, dep := range dependencies {
-		if err := downloadDependency(filepath.Join(projectName), dep); err != nil {
+		if err := DownloadDependency(filepath.Join(projectName), dep); err != nil {
 			return err
 		}
 	}
@@ -100,7 +100,7 @@ func LoadEnv() {
 }
 
 
-func downloadDependency(projectPath, dependency string) error {
+func DownloadDependency(projectPath, dependency string) error {
 	getCmd := exec.Command("go", "get", dependency)
 	getCmd.Dir = projectPath
 	getCmd.Stdout = os.Stdout

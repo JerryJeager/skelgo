@@ -7,6 +7,7 @@ import (
 
 	"github.com/JerryJeager/skelgo/cmd/config"
 	"github.com/JerryJeager/skelgo/cmd/docs"
+	"github.com/JerryJeager/skelgo/cmd/internal"
 )
 
 func InitProject(projectName, modulePath string) error {
@@ -33,6 +34,11 @@ func InitProject(projectName, modulePath string) error {
 
 	//handle docs folder 
 	if err := docs.InitDocs(projectName, modulePath); err != nil {
+		return err
+	}
+
+	//handle models 
+	if err := internal.CreateModels(projectName); err != nil{
 		return err
 	}
 
