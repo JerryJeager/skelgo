@@ -42,5 +42,15 @@ func InitProject(projectName, modulePath string) error {
 		return err
 	}
 
+	//tidy go modules
+	tidy := exec.Command("go", "mod", "tidy")
+	tidy.Dir = projectPath 
+	tidy.Stdout = os.Stdout
+	tidy.Stderr = os.Stderr
+	err = tidy.Run()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
