@@ -22,6 +22,13 @@ func CreateModels(projectName string) error {
 	}
 	defer sourceFile.Close()
 
+	otpSourcePath := "./cmd/internal/template/otp.txt"
+	otpSource, err := os.Open(otpSourcePath)
+	if err != nil {
+		return err
+	}
+	defer otpSource.Close()
+
 	usersPath := filepath.Join(modelsPath, "users.go")
 	file, err := os.Create(usersPath)
 	if err != nil {
@@ -30,6 +37,18 @@ func CreateModels(projectName string) error {
 	defer file.Close()
 
 	_, err = io.Copy(file, sourceFile)
+	if err != nil {
+		return err
+	}
+
+	otpPath := filepath.Join(modelsPath, "otp.go")
+	otpFile, err := os.Create(otpPath)
+	if err != nil {
+		return err
+	}
+	defer otpFile.Close()
+
+	_, err = io.Copy(otpFile, otpSource)
 	if err != nil {
 		return err
 	}

@@ -15,7 +15,6 @@ type User struct {
 	LastName     string       `json:"last_name" binding:"required"`
 	Email        string       `json:"email" binding:"required"`
 	Password     string       `json:"password" binding:"required"`
-	Role         string       `json:"role"`
 	IsVerified   bool         `json:"is_verified"`
 	CreatedAt    time.Time    `json:"created_at"`
 	UpdatedAt    time.Time    `json:"updated_at"`
