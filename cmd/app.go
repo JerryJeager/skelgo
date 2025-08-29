@@ -8,6 +8,7 @@ import (
 	"github.com/JerryJeager/skelgo/cmd/config"
 	"github.com/JerryJeager/skelgo/cmd/docs"
 	"github.com/JerryJeager/skelgo/cmd/internal"
+	"github.com/JerryJeager/skelgo/cmd/internal/utils"
 )
 
 func InitProject(projectName, modulePath string) error {
@@ -40,6 +41,11 @@ func InitProject(projectName, modulePath string) error {
 	//handle models 
 	if err := internal.CreateModels(projectName); err != nil{
 		return err
+	}
+
+	//handle utils 
+	if err := utils.HandleUtils(projectName); err != nil{
+		return err 
 	}
 
 	//tidy go modules
