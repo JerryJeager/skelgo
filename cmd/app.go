@@ -8,6 +8,7 @@ import (
 	"github.com/JerryJeager/skelgo/cmd/config"
 	"github.com/JerryJeager/skelgo/cmd/docs"
 	"github.com/JerryJeager/skelgo/cmd/internal"
+	"github.com/JerryJeager/skelgo/cmd/internal/db"
 	"github.com/JerryJeager/skelgo/cmd/internal/utils"
 )
 
@@ -45,6 +46,11 @@ func InitProject(projectName, modulePath string) error {
 
 	//handle utils 
 	if err := utils.HandleUtils(projectName); err != nil{
+		return err 
+	}
+
+	//handle migration file
+	if err := db.CreateMigrationFile(projectName); err != nil{
 		return err 
 	}
 
