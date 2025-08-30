@@ -7,6 +7,7 @@ import (
 
 	"github.com/JerryJeager/skelgo/cmd/config"
 	"github.com/JerryJeager/skelgo/cmd/docs"
+	"github.com/JerryJeager/skelgo/cmd/git"
 	"github.com/JerryJeager/skelgo/cmd/internal"
 	"github.com/JerryJeager/skelgo/cmd/internal/db"
 	"github.com/JerryJeager/skelgo/cmd/internal/env"
@@ -68,6 +69,11 @@ func InitProject(projectName, modulePath string) error {
 	err = tidy.Run()
 	if err != nil {
 		return err
+	}
+
+	//initialize git repository 
+	if err := git.GitInitProject(projectName); err != nil{
+		return err 
 	}
 
 	return nil
