@@ -11,6 +11,7 @@ import (
 	"github.com/JerryJeager/skelgo/cmd/internal"
 	"github.com/JerryJeager/skelgo/cmd/internal/db"
 	"github.com/JerryJeager/skelgo/cmd/internal/env"
+	"github.com/JerryJeager/skelgo/cmd/internal/http"
 	"github.com/JerryJeager/skelgo/cmd/internal/service"
 	"github.com/JerryJeager/skelgo/cmd/internal/utils"
 )
@@ -64,6 +65,11 @@ func InitProject(projectName, modulePath string) error {
 
 	//handle service 
 	if err := service.HanldeService(projectName, modulePath); err != nil{
+		return err
+	}
+
+	//handle http 
+	if err := http.HandleHttp(projectName, modulePath); err != nil{
 		return err
 	}
 
