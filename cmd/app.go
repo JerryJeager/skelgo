@@ -9,6 +9,7 @@ import (
 	"github.com/JerryJeager/skelgo/cmd/docs"
 	"github.com/JerryJeager/skelgo/cmd/internal"
 	"github.com/JerryJeager/skelgo/cmd/internal/db"
+	"github.com/JerryJeager/skelgo/cmd/internal/env"
 	"github.com/JerryJeager/skelgo/cmd/internal/utils"
 )
 
@@ -52,6 +53,11 @@ func InitProject(projectName, modulePath string) error {
 	//handle migration file
 	if err := db.CreateMigrationFile(projectName); err != nil{
 		return err 
+	}
+
+	//handle envs
+	if err := env.HandleEnvs(projectName); err != nil{
+		return err
 	}
 
 	//tidy go modules
