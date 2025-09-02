@@ -15,6 +15,7 @@ import (
 	"github.com/JerryJeager/skelgo/cmd/internal/service"
 	"github.com/JerryJeager/skelgo/cmd/internal/utils"
 	"github.com/JerryJeager/skelgo/cmd/manualwire"
+	"github.com/JerryJeager/skelgo/cmd/middleware"
 )
 
 func InitProject(projectName, modulePath string) error {
@@ -76,6 +77,11 @@ func InitProject(projectName, modulePath string) error {
 
 	//handle manualwire
 	if err := manualwire.HandleManualWire(projectName, modulePath); err != nil{
+		return err
+	}
+
+	//handle middleware
+	if err := middleware.HandleMiddleware(projectName, modulePath); err != nil{
 		return err
 	}
 
