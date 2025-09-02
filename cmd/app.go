@@ -14,6 +14,7 @@ import (
 	"github.com/JerryJeager/skelgo/cmd/internal/http"
 	"github.com/JerryJeager/skelgo/cmd/internal/service"
 	"github.com/JerryJeager/skelgo/cmd/internal/utils"
+	"github.com/JerryJeager/skelgo/cmd/manualwire"
 )
 
 func InitProject(projectName, modulePath string) error {
@@ -70,6 +71,11 @@ func InitProject(projectName, modulePath string) error {
 
 	//handle http 
 	if err := http.HandleHttp(projectName, modulePath); err != nil{
+		return err
+	}
+
+	//handle manualwire
+	if err := manualwire.HandleManualWire(projectName, modulePath); err != nil{
 		return err
 	}
 
