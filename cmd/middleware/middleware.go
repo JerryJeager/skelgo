@@ -6,7 +6,7 @@ import (
 )
 
 func HandleMiddleware(projectName, modulePath string) error {
-	middlewarePath := filepath.Join(projectName, "middlware")
+	middlewarePath := filepath.Join(projectName, "middleware")
 	err := os.MkdirAll(middlewarePath, os.ModePerm)
 	if err != nil {
 		return err

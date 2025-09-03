@@ -88,6 +88,7 @@ func LoadEnv() {
 		"github.com/joho/godotenv",
 		"gorm.io/driver/postgres",
 		"gorm.io/gorm",
+		"github.com/gin-gonic/gin",
 	}
 
 	for _, dep := range dependencies {
