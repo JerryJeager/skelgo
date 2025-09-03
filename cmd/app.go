@@ -36,6 +36,11 @@ func InitProject(projectName, modulePath string) error {
 		return err
 	}
 
+	//handle readme
+	if err := HandleReadMe(projectName); err != nil{
+		return err
+	}
+
 	// handle config folder
 	if err := config.InitConfig(projectName, modulePath); err != nil {
 		return err
@@ -88,6 +93,11 @@ func InitProject(projectName, modulePath string) error {
 
 	//handle app
 	if err := HandleApp(projectName, modulePath); err != nil {
+		return err
+	}
+
+	//handle main 
+	if err := HandleMain(projectName, modulePath); err != nil{
 		return err
 	}
 
@@ -170,6 +180,48 @@ func ExecuteApiRoutes() {
 	if err := router.Run(":" + port); err != nil {
 		log.Panic("failed to run server")
 	}
+}
+
+	`, modulePath, modulePath)
+}
+
+func HandleMain(projectName, modulePath string) error {
+	mainPath := filepath.Join(projectName, "main.go")
+	mainFileDest, err := os.Create(mainPath)
+	if err != nil{
+		return err
+	}
+	defer mainFileDest.Close()
+
+	_, err = mainFileDest.WriteString(GenerateMainFile(modulePath))
+	if err != nil{
+		return err
+	}
+
+	return nil
+}
+
+func GenerateMainFile(modulePath string) string {
+	return fmt.Sprintf(`
+package main
+
+import (
+	"log"
+
+	"%s/cmd"
+	"%s/config"
+)
+
+func init() {
+	config.LoadEnv()
+	config.ConnectToDB()
+}
+
+func main() {
+	log.Println("Starting Server")
+
+
+	cmd.ExecuteApiRoutes()
 }
 
 	`, modulePath, modulePath)
