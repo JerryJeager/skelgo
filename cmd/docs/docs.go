@@ -16,23 +16,8 @@ func InitDocs(projectName, modulePath string) error {
 		return err
 	}
 
-	sourcePath := "./cmd/docs/migration.txt"
-
-	sourceFile, err := os.Open(sourcePath)
-	if err != nil {
-		return err
-	}
-	defer sourceFile.Close()
-
 	filePath := filepath.Join(configPath, "migrations.md")
-	file, err := os.Create(filePath)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	_, err = file.WriteString(migrationTemplate)
-	if err != nil {
+	if err := os.WriteFile(filePath, []byte(migrationTemplate), 0644); err != nil {
 		return err
 	}
 
