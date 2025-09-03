@@ -1,12 +1,18 @@
 package internal
 
 import (
-	"io"
+	_ "embed"
 	"os"
 	"path/filepath"
 
 	"github.com/JerryJeager/skelgo/cmd/config"
 )
+
+//go:embed template/models.txt
+var modelsTemplate string
+
+//go:embed template/otp.txt
+var otpTemplate string
 
 func CreateModels(projectName string) error {
 	modelsPath := filepath.Join(projectName, "internal", "models")
@@ -15,41 +21,13 @@ func CreateModels(projectName string) error {
 		return err
 	}
 
-	sourcePath := "./cmd/internal/template/models.txt"
-	sourceFile, err := os.Open(sourcePath)
-	if err != nil {
-		return err
-	}
-	defer sourceFile.Close()
-
-	otpSourcePath := "./cmd/internal/template/otp.txt"
-	otpSource, err := os.Open(otpSourcePath)
-	if err != nil {
-		return err
-	}
-	defer otpSource.Close()
-
 	usersPath := filepath.Join(modelsPath, "users.go")
-	file, err := os.Create(usersPath)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	_, err = io.Copy(file, sourceFile)
-	if err != nil {
+	if err := os.WriteFile(usersPath, []byte(modelsTemplate), 0644); err != nil {
 		return err
 	}
 
 	otpPath := filepath.Join(modelsPath, "otp.go")
-	otpFile, err := os.Create(otpPath)
-	if err != nil {
-		return err
-	}
-	defer otpFile.Close()
-
-	_, err = io.Copy(otpFile, otpSource)
-	if err != nil {
+	if err := os.WriteFile(otpPath, []byte(otpTemplate), 0644); err != nil {
 		return err
 	}
 

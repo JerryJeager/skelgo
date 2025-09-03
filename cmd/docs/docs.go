@@ -1,10 +1,13 @@
 package docs
 
 import (
-	"io"
+	_ "embed"
 	"os"
 	"path/filepath"
 )
+
+//go:embed migration.txt
+var migrationTemplate string
 
 func InitDocs(projectName, modulePath string) error {
 	configPath := filepath.Join(projectName, "docs")
@@ -28,7 +31,7 @@ func InitDocs(projectName, modulePath string) error {
 	}
 	defer file.Close()
 
-	_, err = io.Copy(file, sourceFile)
+	_, err = file.WriteString(migrationTemplate)
 	if err != nil {
 		return err
 	}

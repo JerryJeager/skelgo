@@ -1,12 +1,15 @@
 package env
 
 import (
+	_ "embed"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 	"strings"
 )
+
+//go:embed env.example.txt
+var envExampleTemplate string
 
 func HandleEnvs(projectName string) error {
 	projectPath := filepath.Join(projectName)
@@ -21,24 +24,11 @@ func HandleEnvs(projectName string) error {
 		return err
 	}
 
-	envExampleSource := "./cmd/internal/env/env.example.txt"
-	envExampleFile, err := os.Open(envExampleSource)
-	if err != nil {
-		return err
-	}
-	defer envExampleFile.Close()
-
 	envExamplePath := filepath.Join(projectPath, ".env.example")
-	envExampleFileDest, err := os.Create(envExamplePath)
-	if err != nil {
+	if err := os.WriteFile(envExamplePath, []byte(envExampleTemplate), 0644); err != nil {
 		return err
 	}
-	defer envExampleFileDest.Close()
 
-	_, err = io.Copy(envExampleFileDest, envExampleFile)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 

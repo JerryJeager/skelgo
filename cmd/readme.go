@@ -1,10 +1,14 @@
 package cmd
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
 	"path/filepath"
 )
+
+//go:embed readme.txt
+var readmeTemplate string
 
 func HandleReadMe(projectName string) error {
 	readmePath := filepath.Join(projectName, "README.md")
@@ -15,15 +19,10 @@ func HandleReadMe(projectName string) error {
 
 	defer readmeFileDest.Close()
 
-	mainReadme, err := os.ReadFile("./cmd/readme.txt")
-	if err != nil {
-		return err
-	}
-	txtReadMe := fmt.Sprintln(string(mainReadme))
 	readmeContent := fmt.Sprintf(`
 # %s
 %s
-	`, projectName, txtReadMe)
+	`, projectName, readmeTemplate)
 
 	_, err = readmeFileDest.WriteString(readmeContent)
 	if err != nil {
@@ -32,4 +31,3 @@ func HandleReadMe(projectName string) error {
 
 	return nil
 }
-

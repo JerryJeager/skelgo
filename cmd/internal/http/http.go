@@ -1,10 +1,16 @@
 package http
 
 import (
-	"io"
+	_ "embed"
 	"os"
 	"path/filepath"
 )
+
+//go:embed token.txt
+var tokenTemplate string
+
+//go:embed http.txt
+var httpTemplate string
 
 func HandleHttp(projectName, modulePath string) error {
 	httpDirPath := filepath.Join(projectName, "internal", "http")
@@ -13,53 +19,18 @@ func HandleHttp(projectName, modulePath string) error {
 		return err
 	}
 
-	tokenSource := "./cmd/internal/http/token.txt"
-	httpSource := "./cmd/internal/http/http.txt"
-
-	tokenFile, err := os.Open(tokenSource)
-	if err != nil {
-		return err
-	}
-	defer tokenFile.Close()
-
-	httpFile, err := os.Open(httpSource)
-	if err != nil {
-		return err
-	}
-	defer httpFile.Close()
-
 	tokenPath := filepath.Join(httpDirPath, "token.go")
-	tokenFileDest, err := os.Create(tokenPath)
-	if err != nil {
-		return err
-	}
-	defer tokenFileDest.Close()
-	_, err = io.Copy(tokenFileDest, tokenFile)
-	if err != nil {
+	if err := os.WriteFile(tokenPath, []byte(tokenTemplate), 0644); err != nil {
 		return err
 	}
 
 	httpPath := filepath.Join(httpDirPath, "http.go")
-	httpFileDest, err := os.Create(httpPath)
-	if err != nil {
-		return err
-	}
-	defer httpFileDest.Close()
-
-	_, err = io.Copy(httpFileDest, httpFile)
-	if err != nil {
+	if err := os.WriteFile(httpPath, []byte(httpTemplate), 0644); err != nil {
 		return err
 	}
 
 	usersPath := filepath.Join(httpDirPath, "users.go")
-	usersFileDest, err := os.Create(usersPath)
-	if err != nil {
-		return err
-	}
-	defer usersFileDest.Close()
-
-	_, err = usersFileDest.WriteString(GenerateUserController(modulePath))
-	if err != nil {
+	if err := os.WriteFile(usersPath, []byte(GenerateUserController(modulePath)), 0644); err != nil {
 		return err
 	}
 
