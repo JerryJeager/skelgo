@@ -4,8 +4,6 @@ import (
 	_ "embed"
 	"os"
 	"path/filepath"
-
-	"github.com/JerryJeager/skelgo/cmd/config"
 )
 
 //go:embed template/models.txt
@@ -29,17 +27,6 @@ func CreateModels(projectName string) error {
 	otpPath := filepath.Join(modelsPath, "otp.go")
 	if err := os.WriteFile(otpPath, []byte(otpTemplate), 0644); err != nil {
 		return err
-	}
-
-	dependencies := []string{
-		"github.com/google/uuid",
-		"golang.org/x/crypto/bcrypt",
-	}
-
-	for _, dep := range dependencies {
-		if err := config.DownloadDependency(filepath.Join(projectName), dep); err != nil {
-			return err
-		}
 	}
 
 	return nil

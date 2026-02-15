@@ -32,7 +32,7 @@ Clone this repository and build the CLI tool:
 ```sh
 git clone https://github.com/JerryJeager/skelgo.git
 cd skelgo
-go build -o skelgo
+go build -o skelgo.exe
 ```
 
 Or install directly with Go:

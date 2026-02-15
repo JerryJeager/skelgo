@@ -84,19 +84,6 @@ func LoadEnv() {
 		return err
 	}
 
-	dependencies := []string{
-		"github.com/joho/godotenv",
-		"gorm.io/driver/postgres",
-		"gorm.io/gorm",
-		"github.com/gin-gonic/gin",
-	}
-
-	for _, dep := range dependencies {
-		if err := DownloadDependency(filepath.Join(projectName), dep); err != nil {
-			return err
-		}
-	}
-
 	return nil
 }
 
